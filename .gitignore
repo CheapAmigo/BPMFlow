@@ -1,0 +1,47 @@
+# Exclude virtual environments
+env/
+venv/
+
+# Exclude Python compiled files
+*.pyc
+__pycache__/
+
+# Exclude database files (excluding MySQL dumps)
+*.sqlite3
+
+# Exclude IDE and editor specific files
+.vscode/
+.idea/
+*.swp
+
+# Exclude log files
+*.log
+
+# Exclude static and media files (if they are generated dynamically)
+staticfiles/
+media/
+
+# Exclude environment variable files
+.env
+
+# Exclude Django migration files (if you want to regenerate them)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Exclude coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Exclude mypy and other type-checking reports
+.mypy_cache/
+.dmypy.json
+.dmypy.json.XXX/
+
+# Exclude test reports
+pytest_cache/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
