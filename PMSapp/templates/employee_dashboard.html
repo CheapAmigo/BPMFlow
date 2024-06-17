@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Панель управления работника{% endblock %}
+
+{% block content %}
+
+<h3>Персональная информация</h3>
+<p>ФИО: {{ request.user.first_name }} {{ request.user.last_name }} {{ request.user.patronymic }}</p>
+<p>Телефон: {{ request.user.phone_number }}</p>
+<p>Паспортные данные: {{ request.user.passport_data }}</p>
+<p>Отдел: {{ request.user.department }}</p>
+
+{% endblock %}

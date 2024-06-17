@@ -9,7 +9,10 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')
+            if user.role == 'employee':
+                return redirect('employee_dashboard.html')
+            elif user.role == 'manager':
+                return redirect('manager_dashboard.html')
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
@@ -23,7 +26,10 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                if user.role == 'employee':
+                    return redirect('employee_dashboard.html')
+                elif user.role == 'manager':
+                    return redirect('manager_dashboard.html')
     else:
         form = CustomAuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
