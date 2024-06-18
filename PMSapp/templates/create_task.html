@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Создать задачу{% endblock %}
+
+{% block content %}
+
+<h2>Создать задачу</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="title">Название:</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание:</label>
+        <textarea class="form-control" id="description" name="description" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="due_date">До:</label>
+        <input type="date" class="form-control" id="due_date" name="due_date" required>
+    </div>
+    <div class="form-group">
+        <label for="assigned_to">Кому:</label>
+        <select class="form-control" id="assigned_to" name="assigned_to" required>
+            {% for employee in employees %}
+            <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+{% endblock %}

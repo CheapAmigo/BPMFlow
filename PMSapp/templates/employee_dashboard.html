@@ -1,13 +1,31 @@
 {% extends "base_generic.html" %}
 
-{% block title %}Панель управления работника{% endblock %}
+{% block title %}Персональная страница работника{% endblock %}
 
 {% block content %}
 
 <h3>Персональная информация</h3>
-<p>ФИО: {{ request.user.first_name }} {{ request.user.last_name }} {{ request.user.patronymic }}</p>
+
+<p>ФИО: {{ request.user.last_name }} {{ request.user.first_name }} {{ request.user.patronymic }}</p>
+
 <p>Телефон: {{ request.user.phone_number }}</p>
+
 <p>Паспортные данные: {{ request.user.passport_data }}</p>
+
 <p>Отдел: {{ request.user.department }}</p>
+
+<p>Должность: {{ request.user.position }}</p>
+
+<p>Должностные обязанности:</p>
+<p>{{ request.user.responsibilities }}</p>
+
+<h2>Панель управления</h2>
+
+<h2>Задачи</h2>
+<ul>
+    {% for task in tasks %}
+    <li>{{ task.title }} - До: {{ task.due_date }}</li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

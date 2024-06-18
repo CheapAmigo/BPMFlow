@@ -8,4 +8,29 @@
     <button type="submit">Зарегистрироваться</button>
   </form>
   <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+  $(document).ready(function() {
+      var roleField = $('#id_role');
+      var positionField = $('#id_position');
+      var responsibilitiesField = $('#id_responsibilities');
+  
+      function updateFieldsVisibility() {
+          var selectedRole = roleField.val();
+  
+          if (selectedRole === 'manager') {
+              positionField.val('').attr('readonly', 'readonly').closest('p').hide();
+              responsibilitiesField.val('').attr('readonly', 'readonly').closest('p').hide();
+          } else {
+              positionField.removeAttr('readonly').closest('p').show();
+              responsibilitiesField.removeAttr('readonly').closest('p').show();
+          }
+      }
+  
+      updateFieldsVisibility();
+      roleField.change(updateFieldsVisibility);
+  });
+  </script>
+
 {% endblock %}

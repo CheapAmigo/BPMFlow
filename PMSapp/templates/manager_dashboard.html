@@ -1,13 +1,29 @@
 {% extends "base_generic.html" %}
 
-{% block title %}Панель управления менеджера{% endblock %}
+{% block title %}Персональная страница менеджера{% endblock %}
 
 {% block content %}
 
-<h3>Работники</h3>
-<ul>
-    {% for employee in employees %}
-    <li>{{ employee.first_name }} {{ employee.last_name }}</li>
-    {% endfor %}
-</ul>
+<h3>Персональная информация</h3>
+
+<p>ФИО: {{ request.user.last_name }} {{ request.user.first_name }} {{ request.user.patronymic }}</p>
+<p>Телефон: {{ request.user.phone_number }}</p>
+<p>Паспортные данные: {{ request.user.passport_data }}</p>
+
+{% if request.user.department %}
+    <p>Отдел: {{ request.user.department.name }}</p>
+{% else %}
+    <p>Отдел: Не указан</p>
+{% endif %}
+
+<h2>Панель управления</h2>
+
+{% if request.user.role == 'manager' %}
+    {% if request.user.department %}
+        <a href="{% url 'department_view' request.user.department.id %}" class="btn btn-info">Просмотреть отдел</a>
+    {% endif %}
+{% endif %}
+
+<a href="{% url 'create_task' %}" class="btn btn-primary">Создать задачу</a>
+
 {% endblock %}
