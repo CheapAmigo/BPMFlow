@@ -23,10 +23,23 @@
         <label for="assigned_to">Кому:</label>
         <select class="form-control" id="assigned_to" name="assigned_to" required>
             {% for employee in employees %}
-            <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+            <option value="{{ employee.id }}">{{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</option>
             {% endfor %}
         </select>
     </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="department_wide" name="department_wide" onclick="toggleEmployeeSelect()">
+        <label class="form-check-label" for="department_wide">Назначить всему отделу</label>
+    </div>
     <button type="submit" class="btn btn-primary">Создать</button>
 </form>
+
+<script>
+function toggleEmployeeSelect() {
+    var checkbox = document.getElementById('department_wide');
+    var select = document.getElementById('assigned_to');
+    select.disabled = checkbox.checked;
+}
+</script>
+
 {% endblock %}

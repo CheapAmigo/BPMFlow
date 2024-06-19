@@ -29,3 +29,12 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['title', 'description', 'due_date', 'assigned_to']
+
+class AbsenceForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['sick_leave', 'leave_of_absence']
+        widgets = {
+            'sick_leave': forms.CheckboxInput(),
+            'leave_of_absence': forms.CheckboxInput(),
+        }

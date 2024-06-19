@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Расписание на неделю для {{ employee.last_name }} {{ employee.first_name }}</h2>
+<div class="container mt-4">
+    <div class="row">
+        {% for schedule in schedules %}
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <div class="card-header">{{ schedule.day|date:"D, M j" }}</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for task in schedule.tasks.all %}
+                        <li class="list-group-item">{{ task.title }}</li>
+                        {% empty %}
+                        <li class="list-group-item">Задач нет</li>
+                        {% endfor %}
+                    </ul>
+                    {% if schedule.sick_leave %}
+                    <p class="text-danger mt-2">На больничном</p>
+                    {% elif schedule.leave_of_absence %}
+                    <p class="text-warning mt-2">Прогул</p>
+                    {% endif %}
+                    <a href="{% url 'daily_schedule_employee' schedule.day|date:'Y-m-d' employee.id %}" class="btn btn-primary mt-3">Перейти</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

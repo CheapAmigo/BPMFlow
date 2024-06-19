@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Рассмотрение задач{% endblock %}
+
+{% block content %}
+<h1>Задачи на рассмотрении в вашем отделе</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название задачи</th>
+            <th>Предназначена</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.assigned_to.get_full_name }}</td>
+            <td>
+                <a href="{% url 'review_task' task.id %}" class="btn btn-primary">Рассмотреть</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
