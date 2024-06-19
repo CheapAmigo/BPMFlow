@@ -1,0 +1,35 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <h1>Рассматриваемая задача: {{ task.title }}</h1>
+    <h1>Описание:</h1> 
+    <p>{{ task.description }}</p>
+    <label>Статус:</label>
+    <select name="status" id="status" class="form-control mb-3" onchange="toggleComment()">
+        <option value="rejected">Вернуть</option>
+        <option value="accepted">Принять</option>
+    </select>
+    <div id="commentSection" class="form-group mb-3">
+        <label>Комментарий:</label>
+        <textarea name="review_comment" class="form-control" rows="4"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить решение</button>
+</form>
+
+<script>
+function toggleComment() {
+    var status = document.getElementById('status').value;
+    var commentSection = document.getElementById('commentSection');
+    if (status === 'accepted') {
+        commentSection.style.display = 'none';
+    } else {
+        commentSection.style.display = 'block';
+    }
+}
+document.addEventListener('DOMContentLoaded', function() {
+    toggleComment();
+});
+</script>
+{% endblock %}

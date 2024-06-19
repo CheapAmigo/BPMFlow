@@ -1,0 +1,89 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Персональная страница работника{% endblock %}
+
+{% block content %}
+
+<h3>Персональная информация</h3>
+
+<p>ФИО: {{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</p>
+
+<p>Телефон: {{ employee.phone_number }}</p>
+
+{% if is_owner %}
+<p>Паспортные данные: {{ employee.passport_data }}</p>
+{% endif %}
+
+<p>Отдел: {{ employee.department.name }}</p>
+
+<p>Должность: {{ employee.position }}</p>
+
+<p>Должностные обязанности:</p>
+<p>{{ employee.responsibilities }}</p>
+
+<h2>Панель управления</h2>
+
+<h2>Текущие задачи</h2>
+<ul>
+{% for task in current_tasks %}
+<li>
+    {{ task.title }}
+    <form action="{% url 'submit_task_for_review' task.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-primary">Отправить на рассмотрение</button>
+    </form>
+</li>
+{% endfor %}{% for task in current_tasks %}
+<li>
+    {{ task.title }}
+    <form action="{% url 'submit_task_for_review' task.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-primary">Отправить на рассмотрение</button>
+    </form>
+</li>
+{% endfor %}
+</ul>
+
+<h2>Задачи на рассмотрении</h2>
+<ul>
+    {% for task in tasks_under_review %}
+    <li>{{ task.title }}
+    {% empty %}
+    <li>Нет задач на рассмотрении.</li>
+    {% endfor %}
+</ul>
+
+<h2>Выполненные задачи</h2>
+<ul>
+    {% for task in completed_tasks %}
+    <li>
+        {{ task.title }}
+        {% if task.review_comment %}
+        - Комментарий: {{ task.review_comment }}
+        {% endif %}
+    </li>
+    {% empty %}
+    <li>Нет выполненных задач.</li>
+    {% endfor %}
+</ul>
+
+<h2>Задачи отправленные на доработку</h2>
+<ul>
+    {% for task in rejected_tasks %}
+    <li>
+        {{ task.title }}
+        {% if task.review_comment %}
+        - Комментарий: {{ task.review_comment }}
+        {% endif %}
+    </li>
+    {% empty %}
+    <li>Нет дорабатывающихся задач.</li>
+    {% endfor %}
+</ul>
+
+<div class="list-group mt-4">
+    <a href="{% url 'daily_schedule_employee' today employee.id %}" class="list-group-item list-group-item-action">Просмотреть расписание на сегодня</a>
+    <a href="{% url 'weekly_schedule_employee' employee.id %}" class="list-group-item list-group-item-action">Просмотреть недельное расписание</a> 
+</div>
+
+{% endblock %}

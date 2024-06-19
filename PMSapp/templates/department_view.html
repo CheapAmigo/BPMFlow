@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Просмотр отдела{% endblock %}
+
+{% block content %}
+
+
+
+<h3>Работники</h3>
+<ul>
+    {% for employee in employees %}
+    <li>
+        <a href="{% url 'employee_dashboard' employee.id %}">{{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</a>
+        <a href="{% url 'manage_absence' employee.id %}" class="btn btn-sm btn-secondary">Выставить пропуски</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Отдел: {{ department.name }}</h2>
+
+{% if department.description %}
+    <p>{{ department.description }}</p>
+{% endif %}
+
+
+
+{% endblock %}

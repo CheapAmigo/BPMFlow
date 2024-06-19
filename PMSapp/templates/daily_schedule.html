@@ -1,0 +1,58 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Расписание на {{ schedule.day|date:"D, M j, Y" }}</h2>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">Задачи дня для {{ employee.last_name }} {{ employee.first_name }}</div>
+        <ul class="list-group list-group-flush">
+            {% for task in schedule.tasks.all %}
+            <li class="list-group-item">{{ task.title }}</li>
+            {% empty %}
+            <li class="list-group-item">Задач нет</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if request.user.role == 'manager' or schedule.sick_leave or schedule.leave_of_absence %}
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Статус отсутствия</h5>
+            {% if schedule.sick_leave %}
+            <p class="card-text">На больничном</p>
+            {% elif schedule.leave_of_absence %}
+            <p class="card-text">Прогул</p>
+            {% endif %}
+            {% if request.user.role == 'manager' %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="sick_leave" name="sick_leave" {% if schedule.sick_leave %}checked{% endif %} onchange="toggleCheckbox('sick_leave')">
+                    <label class="form-check-label" for="sick_leave">Больничный</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="leave_of_absence" name="leave_of_absence" {% if schedule.leave_of_absence %}checked{% endif %} onchange="toggleCheckbox('leave_of_absence')">
+                    <label class="form-check-label" for="leave_of_absence">Прогул</label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Обновить статус</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function toggleCheckbox(changedCheckboxId) {
+        const sickLeaveCheckbox = document.getElementById('sick_leave');
+        const leaveOfAbsenceCheckbox = document.getElementById('leave_of_absence');
+
+        if (changedCheckboxId === 'sick_leave' && sickLeaveCheckbox.checked) {
+            leaveOfAbsenceCheckbox.checked = false;
+        }
+
+        if (changedCheckboxId === 'leave_of_absence' && leaveOfAbsenceCheckbox.checked) {
+            sickLeaveCheckbox.checked = false;
+        }
+    }
+</script>
+{% endblock %}
