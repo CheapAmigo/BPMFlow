@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth import get_user_model
 
 class Department(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -29,9 +30,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return f'{self.username} ({self.get_role_display()})'
 
-from django.db import models
-from django.contrib.auth import get_user_model
-
 CustomUser = get_user_model()
 
 class Task(models.Model):
@@ -44,14 +42,20 @@ class Task(models.Model):
         ('accepted', 'Принято'),
     ]
 
+    TIME_CHOICES = [
+        ('work_time', 'Рабочее время'),
+        ('after_hours', 'Дополнительная работа'),
+    ]
+
     title = models.CharField(max_length=100)
     description = models.TextField()
     assigned_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tasks')
     due_date = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     review_comment = models.TextField(blank=True, null=True)
-    is_completed = models.BooleanField(default=False)  # Устанавливаем значение по умолчанию
+    is_completed = models.BooleanField(default=False)
     completion_date = models.DateField(null=True, blank=True)
+    time_period = models.CharField(max_length=20, choices=[('work_time', 'Рабочее время'), ('after_hours', 'Послерабочее время'), ('weekend_hours', 'Выходной день')], default='work_time')
     
     def __str__(self):
         return self.title

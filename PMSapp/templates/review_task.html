@@ -5,17 +5,17 @@
     {% csrf_token %}
     <h1>Рассматриваемая задача: {{ task.title }}</h1>
     <h1>Описание:</h1> 
-    <p>{{ task.description }}</p>
+    {{ task.description }}</p>
     <label>Статус:</label>
-    <select name="status" id="status" class="form-control mb-3" onchange="toggleComment()">
+    <select name="status" id="status" class="form-control" onchange="toggleComment()">
         <option value="rejected">Вернуть</option>
         <option value="accepted">Принять</option>
     </select>
-    <div id="commentSection" class="form-group mb-3">
+    <div id="commentSection" class="mt-3">
         <label>Комментарий:</label>
-        <textarea name="review_comment" class="form-control" rows="4"></textarea>
+        <textarea name="review_comment" class="form-control" rows="5"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Отправить решение</button>
+    <button type="submit" class="btn btn-primary mt-3">Отправить решение</button>
 </form>
 
 <script>

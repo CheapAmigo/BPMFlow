@@ -16,7 +16,7 @@
         <textarea class="form-control" id="description" name="description" required></textarea>
     </div>
     <div class="form-group">
-        <label for="due_date">До:</label>
+        <label for="due_date">Срок выполнения:</label>
         <input type="date" class="form-control" id="due_date" name="due_date" required>
     </div>
     <div class="form-group">
@@ -31,15 +31,40 @@
         <input type="checkbox" class="form-check-input" id="department_wide" name="department_wide" onclick="toggleEmployeeSelect()">
         <label class="form-check-label" for="department_wide">Назначить всему отделу</label>
     </div>
+    <div class="form-group mt-3">
+        <label for="time_period">Время выполнения:</label>
+        <select class="form-control" id="time_period" name="time_period" required onchange="toggleDatePicker()">
+            <option value="work_time">Рабочее время</option>
+            <option value="after_hours">Дополнительная работа</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-primary">Создать</button>
 </form>
 
 <script>
-function toggleEmployeeSelect() {
-    var checkbox = document.getElementById('department_wide');
-    var select = document.getElementById('assigned_to');
-    select.disabled = checkbox.checked;
-}
-</script>
+    function toggleEmployeeSelect() {
+        var checkbox = document.getElementById('department_wide');
+        var select = document.getElementById('assigned_to');
+        select.disabled = checkbox.checked;
+    }
 
+    function toggleDatePicker() {
+        var timePeriod = document.getElementById('time_period').value;
+        var dueDate = document.getElementById('due_date');
+        
+        dueDate.addEventListener('input', function() {
+            var selectedDate = new Date(dueDate.value);
+            var day = selectedDate.getUTCDay();
+            
+            if (timePeriod === 'work_time' && (day === 6 || day === 0)) {
+                alert('Вы не можете выбрать выходные дни для выполнения задачи в рабочее время.');
+                dueDate.value = '';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleDatePicker(); 
+    });
+</script>
 {% endblock %}
