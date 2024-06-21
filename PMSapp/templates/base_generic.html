@@ -27,14 +27,17 @@
         {% block sidebar %}
         <nav class="text-white p-3 border-right d-flex flex-column align-items-center" style="width: 250px; min-height: 100vh; background-color: #007bff;">
             <h2 class="text-center mb-4">Навигация</h2>
+            <div class="d-flex w-100 mb-3">
+                <button onclick="history.back()" class="btn btn-success w-50 mr-1">&#8592; Назад</button>
+                <button onclick="history.forward()" class="btn btn-success w-50 ml-1">Вперед &#8594;</button>
+            </div>
             {% if user_role == 'employee' %}
                 <a href="{% url 'employee_dashboard' %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Личная страница</a>
-                <a href="{% url 'daily_schedule' date="today" %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Ежедневное расписание</a>
-                <a href="{% url 'weekly_schedule' %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Еженедельное расписание</a>
+                <a href="{% url 'department_view' department_id=request.user.department.id %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Просмотреть отдел</a>
             {% endif %}
             {% if user_role == 'manager' %}
                 <a href="{% url 'manager_dashboard' %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Личная страница</a>
-                <a href="{% url 'department_view' department_id=1 %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Отдел</a>
+                <a href="{% url 'department_view' department_id=request.user.department.id %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Просмотреть отдел</a>
                 <a href="{% url 'create_task' %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Создать задачу</a>
                 <a href="{% url 'review_tasks' %}" class="btn btn-info d-block py-2 text-center mb-3 w-100">Проверка задач</a>
             {% endif %}

@@ -1,27 +1,36 @@
 {% extends "base_generic.html" %}
 
+{% load static %}
+
+
 {% block title %}Просмотр отдела{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">
+        <img src="{% static 'images/department_icon.svg' %}" alt="Department Icon" style="height: 24px; vertical-align: middle;">
+        Отдел: {{ department.name }}
+    </h2>
 
+    {% if department.description %}
+        <p>{{ department.description }}</p>
+    {% endif %}
 
-
-<h3>Работники</h3>
-<ul>
-    {% for employee in employees %}
-    <li>
-        <a href="{% url 'employee_dashboard' employee.id %}">{{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</a>
-        <a href="{% url 'manage_absence' employee.id %}" class="btn btn-sm btn-secondary">Выставить пропуски</a>
-    </li>
-    {% endfor %}
-</ul>
-
-<h2>Отдел: {{ department.name }}</h2>
-
-{% if department.description %}
-    <p>{{ department.description }}</p>
-{% endif %}
-
-
-
+    <h3 class="mt-4">
+        <img src="{% static 'images/employees_icon.svg' %}" alt="Employees Icon" style="height: 24px; vertical-align: middle;">
+        Работники
+    </h3>
+    <div class="list-group">
+        {% for employee in employees %}
+            <div class="list-group-item">
+                <h5 class="mb-1">{{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</h5>
+                <p class="mb-1">
+                    <strong>Телефон:</strong> {{ employee.phone_number }}<br>
+                    <strong>Должность:</strong> {{ employee.position }}
+                </p>
+                <a href="{% url 'employee_dashboard' employee.id %}" class="btn btn-primary btn-sm">Персональная страница</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

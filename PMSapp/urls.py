@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import register, login_view, employee_dashboard, manager_dashboard, department_view, create_task, employee_profile, weekly_schedule, daily_schedule, manage_absence, submit_task_for_review, review_task
+from .views import register, login_view, employee_dashboard, manager_dashboard, department_view, create_task, weekly_schedule, daily_schedule, manage_absence, submit_task_for_review, review_task
 
 urlpatterns = [
     path('register/', register, name='register'),

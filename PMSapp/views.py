@@ -83,10 +83,13 @@ def manager_dashboard(request):
 
 @login_required
 def department_view(request, department_id):
-    if request.user.role != 'manager':
-        return HttpResponseForbidden()
     department = Department.objects.get(id=department_id)
-    employees = CustomUser.objects.filter(department=department, role='employee')
+    
+    if request.user.role == 'manager':
+        employees = CustomUser.objects.filter(department=department, role='employee')
+    else:
+        employees = None
+
     return render(request, 'department_view.html', {'department': department, 'employees': employees})
 
 def employee_profile(request, employee_id):
@@ -208,7 +211,7 @@ def manage_absence(request, user_id):
 @login_required
 def submit_task_for_review(request, task_id):
     task = get_object_or_404(Task, id=task_id, assigned_to=request.user)
-    if task.status in ['pending', 'in_progress']:
+    if task.status in ['pending', 'in_progress', 'rejected']:
         task.status = 'under_review'
         task.save()
         return redirect('employee_dashboard')
