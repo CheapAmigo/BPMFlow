@@ -102,9 +102,8 @@ def create_task(request):
         title = request.POST['title']
         description = request.POST['description']
         due_date = request.POST['due_date']
+        time_period = request.POST['time_period']
         department_wide = request.POST.get('department_wide', 'off')
-
-        initial_status = 'pending'
 
         if department_wide == 'on':
             employees = CustomUser.objects.filter(department=request.user.department, role='employee')
@@ -114,7 +113,7 @@ def create_task(request):
                     description=description,
                     due_date=due_date,
                     assigned_to=employee,
-                    status=initial_status
+                    time_period=time_period
                 )
                 schedule, _ = Schedule.objects.get_or_create(user=employee, day=due_date)
                 schedule.tasks.add(task)
@@ -126,7 +125,7 @@ def create_task(request):
                 description=description,
                 due_date=due_date,
                 assigned_to=assigned_to,
-                status=initial_status 
+                time_period=time_period
             )
             schedule, _ = Schedule.objects.get_or_create(user=assigned_to, day=due_date)
             schedule.tasks.add(task)
@@ -171,12 +170,18 @@ def weekly_schedule(request, employee_id=None):
     start_week = today - timedelta(days=today.weekday())
     days_of_week = [start_week + timedelta(days=i) for i in range(7)]
     
-    schedules = []
+    schedules_with_flags = []
     for day in days_of_week:
         schedule, created = Schedule.objects.get_or_create(user=user, day=day)
-        schedules.append(schedule)
+        has_after_hours_tasks = schedule.tasks.filter(time_period='after_hours').exists()
+        has_work_time_tasks = schedule.tasks.filter(time_period='work_time').exists()
+        schedules_with_flags.append({
+            'schedule': schedule,
+            'has_after_hours_tasks': has_after_hours_tasks,
+            'has_work_time_tasks': has_work_time_tasks,
+        })
 
-    return render(request, 'weekly_schedule.html', {'schedules': schedules, 'employee': user})
+    return render(request, 'weekly_schedule.html', {'schedules_with_flags': schedules_with_flags, 'employee': user})
 
 
 @login_required
