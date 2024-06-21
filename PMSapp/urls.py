@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import register, login_view, employee_dashboard, manager_dashboard, department_view, create_task, weekly_schedule, daily_schedule, manage_absence, submit_task_for_review, review_task
+from .views import register, login_view, employee_dashboard, manager_dashboard, department_view, create_task, weekly_schedule, daily_schedule, manage_absence, submit_task_for_review, review_task, task_detail
 
 urlpatterns = [
     path('register/', register, name='register'),
@@ -20,4 +20,5 @@ urlpatterns = [
     path('weekly_schedule/', views.weekly_schedule, name='weekly_schedule'),
     path('weekly_schedule/<int:employee_id>/', views.weekly_schedule, name='weekly_schedule_employee'),
     path('manage_absence/<int:user_id>/', manage_absence, name='manage_absence'),
+    path('task/<int:task_id>/', task_detail, name='task_detail'),
 ]

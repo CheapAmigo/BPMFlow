@@ -240,3 +240,8 @@ def review_tasks(request):
     tasks_under_review = Task.objects.filter(assigned_to__department=department, status='under_review')
 
     return render(request, 'review_tasks.html', {'tasks': tasks_under_review})
+
+@login_required
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    return render(request, 'task_detail.html', {'task': task})

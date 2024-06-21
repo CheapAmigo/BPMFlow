@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Детали задачи{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Детали задачи</h1>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">{{ task.title }}</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Описание:</strong> {{ task.description }}</p>
+            <p><strong>Срок выполнения:</strong> {{ task.due_date }}</p>
+            <p><strong>Выполнена:</strong> {{ task.is_completed|yesno:"Да,Нет" }}</p>
+            {% if task.is_completed %}
+                <p><strong>Завершена:</strong> {{ task.completion_date }}</p>
+            {% endif %}
+            <p><strong>Исполнитель:</strong> {{ task.assigned_to.get_full_name }}</p>
+            <p><strong>Статус:</strong> {{ task.get_status_display }}</p>
+            {% if task.status == 'rejected' %}
+                <p><strong>Комментарий менеджера:</strong> {{ task.review_comment }}</p>
+            {% endif %}
+            <p><strong>Период назначения:</strong> {{ task.get_time_period_display }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

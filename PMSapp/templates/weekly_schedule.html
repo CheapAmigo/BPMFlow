@@ -3,7 +3,7 @@
 {% block title %}Расписание на неделю{% endblock %}
 
 {% block content %}
-<h2>Расписание на неделю для {{ employee.last_name }} {{ employee.first_name }}</h2>
+<h2 class="text-center mb-4">Расписание на неделю для: {{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</h2>
 <div class="container mt-4">
     <div class="row">
         {% for item in schedules_with_flags %}
@@ -19,7 +19,9 @@
                     <ul class="list-group list-group-flush">
                         {% for task in schedule.tasks.all %}
                         {% if task.time_period == 'after_hours' %}
-                        <li class="list-group-item">{{ task.title }}</li>
+                        <li class="list-group-item">
+                            <a href="{% url 'task_detail' task.id %}" class="text-body text-decoration-none">{{ task.title }}</a>
+                        </li>
                         {% endif %}
                         {% endfor %}
                     </ul>
@@ -30,7 +32,9 @@
                     <ul class="list-group list-group-flush">
                         {% for task in schedule.tasks.all %}
                         {% if task.time_period == 'work_time' %}
-                        <li class="list-group-item">{{ task.title }}</li>
+                        <li class="list-group-item">
+                            <a href="{% url 'task_detail' task.id %}" class="text-body text-decoration-none">{{ task.title }}</a>
+                        </li>
                         {% endif %}
                         {% endfor %}
                     </ul>
@@ -42,7 +46,9 @@
                     <ul class="list-group list-group-flush">
                         {% for task in schedule.tasks.all %}
                         {% if task.time_period == 'after_hours' %}
-                        <li class="list-group-item">{{ task.title }}</li>
+                        <li class="list-group-item">
+                            <a href="{% url 'task_detail' task.id %}" class="text-body text-decoration-none">{{ task.title }}</a>
+                        </li>
                         {% endif %}
                         {% endfor %}
                     </ul>
@@ -51,9 +57,9 @@
                     <a href="{% url 'daily_schedule_employee' schedule.day|date:'Y-m-d' employee.id %}" class="btn btn-primary mt-3">Перейти</a>
                 </div>
                 {% if schedule.sick_leave %}
-                <p class="text-danger">На больничном</p>
+                <p class="text-danger text-center">На больничном</p>
                 {% elif schedule.leave_of_absence %}
-                <p class="text-warning">Прогул</p>
+                <p class="text-warning text-center">Прогул</p>
                 {% endif %}
             </div>
         </div>

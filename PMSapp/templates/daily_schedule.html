@@ -3,7 +3,7 @@
 {% block title %}Расписание на сегодня{% endblock %}
 
 {% block content %}
-<h2>Расписание на {{ schedule.day|date:"D, M j, Y" }}</h2>
+<h2 class="text-center">Расписание на {{ schedule.day|date:"D, M j, Y" }}</h2>
 <div class="container mt-4">
     <div class="card">
         <div class="card-header">Задачи дня для {{ employee.last_name }} {{ employee.first_name }}</div>
@@ -12,7 +12,9 @@
             <ul class="list-group list-group-flush">
                 {% for task in schedule.tasks.all %}
                 {% if task.time_period == 'work_time' %}
-                <li class="list-group-item">{{ task.title }}</li>
+                <li class="list-group-item">
+                    <a href="{% url 'task_detail' task.id %}" class="text-body text-decoration-none">{{ task.title }}</a>
+                </li>
                 {% endif %}
                 {% empty %}
                 <li class="list-group-item">Задач нет</li>
@@ -22,7 +24,9 @@
             <ul class="list-group list-group-flush">
                 {% for task in schedule.tasks.all %}
                 {% if task.time_period == 'after_hours' %}
-                <li class="list-group-item">{{ task.title }}</li>
+                <li class="list-group-item">
+                    <a href="{% url 'task_detail' task.id %}" class="text-body text-decoration-none">{{ task.title }}</a>
+                </li>
                 {% endif %}
                 {% empty %}
                 <li class="list-group-item">Доп.работ нет</li>

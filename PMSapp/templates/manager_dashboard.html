@@ -1,11 +1,15 @@
 {% extends "base_generic.html" %}
 
+{% load static %}
+
 {% block title %}Персональная страница менеджера{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">Персональная страница менеджера</h2>
-    
+    <h1 class="mb-4 text-center">
+        <img src="{% static 'images/manager_logo.svg' %}" alt="Manager Logo" style="height: 24px; vertical-align: middle; margin-right: 10px;">
+        Персональная страница менеджера
+    </h1>
     <div class="card mb-4">
         <div class="card-header">
             <h3 class="mb-0">Персональная информация</h3>
@@ -22,13 +26,16 @@
         </div>
     </div>
     
-    <h1 class="mb-4 text-center">Панель управления</h1>
-    
+    <h1 class="mb-4 text-center">
+        <img src="{% static 'images/management_logo.svg' %}" alt="Management Logo" style="height: 24px; vertical-align: middle; margin-right: 10px;">
+        Панель управления
+    </h1>
+
     <div class="card mb-4">
         <div class="card-body">
             {% if request.user.role == 'manager' %}
                 {% if request.user.department %}
-                    <a href="{% url 'department_view' request.user.department.id %}" class="btn btn-info mb-2 w-100">Просмотреть отдел</a>
+                    <a href="{% url 'department_view' request.user.department.id %}" class="btn btn-primary mb-2 w-100">Просмотреть отдел</a>
                 {% endif %}
                 <a href="{% url 'create_task' %}" class="btn btn-primary mb-2 w-100">Создать задачу</a>
                 <a href="{% url 'review_tasks' %}" class="btn btn-primary mb-2 w-100">Просмотреть задачи на рассмотрении</a>
