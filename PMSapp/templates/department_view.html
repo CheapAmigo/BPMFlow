@@ -11,10 +11,12 @@
         Отдел: {{ department.name }}
     </h2>
 
+    <h2 class="mb-2">Описание</h2>
     {% if department.description %}
         <p>{{ department.description }}</p>
     {% endif %}
 
+    {% if request.user.role == 'manager' %}
     <h3 class="mt-4">
         <img src="{% static 'images/employees_icon.svg' %}" alt="Employees Icon" style="height: 24px; vertical-align: middle;">
         Работники
@@ -35,6 +37,7 @@
     </div>
     {% else %}
     <p class="alert alert-warning">В этом отделе нет работников.</p>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}
