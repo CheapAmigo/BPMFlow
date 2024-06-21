@@ -3,79 +3,115 @@
 {% block title %}Персональная страница работника{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Персональная страница работника</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Персональная информация</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>ФИО:</strong> {{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</p>
+            <p><strong>Телефон:</strong> {{ employee.phone_number }}</p>
+            {% if is_owner %}
+                <p><strong>Паспортные данные:</strong> {{ employee.passport_data }}</p>
+            {% endif %}
+            <p><strong>Отдел:</strong> {{ employee.department.name }}</p>
+            <p><strong>Должность:</strong> {{ employee.position }}</p>
+            <p><strong>Должностные обязанности:</strong></p>
+            <p>{{ employee.responsibilities }}</p>
+        </div>
+    </div>
+    
+    <h2 class="mb-4">Панель управления</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Текущие задачи</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for task in current_tasks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ task.title }}
+                        <form action="{% url 'submit_task_for_review' task.id %}" method="post" class="mb-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-primary">Отправить на рассмотрение</button>
+                        </form>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">Нет текущих задач.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Задачи на рассмотрении</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for task in tasks_under_review %}
+                    <li class="list-group-item">{{ task.title }}</li>
+                {% empty %}
+                    <li class="list-group-item">Нет задач на рассмотрении.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Выполненные задачи</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for task in completed_tasks %}
+                    <li class="list-group-item">
+                        {{ task.title }}
+                        {% if task.review_comment %}
+                            <br><small><strong>Комментарий:</strong> {{ task.review_comment }}</small>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">Нет выполненных задач.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Задачи отправленные на доработку</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for task in rejected_tasks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            {{ task.title }}
+                            {% if task.review_comment %}
+                                <br><small><strong>Комментарий:</strong> {{ task.review_comment }}</small>
+                            {% endif %}
+                        </div>
+                        {% if request.user.role == 'employee' %}
+                        <form action="{% url 'submit_task_for_review' task.id %}" method="post" class="mb-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-primary">Отправить на повторное рассмотрение</button>
+                        </form>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">Нет дорабатывающихся задач.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
-<h3>Персональная информация</h3>
-
-<p>ФИО: {{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</p>
-
-<p>Телефон: {{ employee.phone_number }}</p>
-
-{% if is_owner %}
-<p>Паспортные данные: {{ employee.passport_data }}</p>
-{% endif %}
-
-<p>Отдел: {{ employee.department.name }}</p>
-
-<p>Должность: {{ employee.position }}</p>
-
-<p>Должностные обязанности:</p>
-<p>{{ employee.responsibilities }}</p>
-
-<h2>Панель управления</h2>
-
-<h2>Текущие задачи</h2>
-<ul>
-    {% for task in current_tasks %}
-    <li>
-        {{ task.title }}
-        <form action="{% url 'submit_task_for_review' task.id %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-sm btn-primary">Отправить на рассмотрение</button>
-        </form>
-    </li>
-    {% endfor %}
-</ul>
-
-<h2>Задачи на рассмотрении</h2>
-<ul>
-    {% for task in tasks_under_review %}
-    <li>{{ task.title }}
-    {% empty %}
-    <li>Нет задач на рассмотрении.</li>
-    {% endfor %}
-</ul>
-
-<h2>Выполненные задачи</h2>
-<ul>
-    {% for task in completed_tasks %}
-    <li>
-        {{ task.title }}
-        {% if task.review_comment %}
-        - Комментарий: {{ task.review_comment }}
-        {% endif %}
-    </li>
-    {% empty %}
-    <li>Нет выполненных задач.</li>
-    {% endfor %}
-</ul>
-
-<h2>Задачи отправленные на доработку</h2>
-<ul>
-    {% for task in rejected_tasks %}
-    <li>
-        {{ task.title }}
-        {% if task.review_comment %}
-        - Комментарий: {{ task.review_comment }}
-        {% endif %}
-    </li>
-    {% empty %}
-    <li>Нет дорабатывающихся задач.</li>
-    {% endfor %}
-</ul>
-
-<div class="list-group mt-4">
-    <a href="{% url 'daily_schedule_employee' today employee.id %}" class="list-group-item list-group-item-action">Просмотреть расписание на сегодня</a>
-    <a href="{% url 'weekly_schedule_employee' employee.id %}" class="list-group-item list-group-item-action">Просмотреть недельное расписание</a> 
+    <div class="list-group mt-4">
+        <a href="{% url 'daily_schedule_employee' today employee.id %}" class="list-group-item list-group-item-action">Просмотреть расписание на сегодня</a>
+        <a href="{% url 'weekly_schedule_employee' employee.id %}" class="list-group-item list-group-item-action">Просмотреть недельное расписание</a>
+    </div>
 </div>
-
 {% endblock %}

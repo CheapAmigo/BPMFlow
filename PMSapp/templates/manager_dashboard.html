@@ -3,29 +3,37 @@
 {% block title %}Персональная страница менеджера{% endblock %}
 
 {% block content %}
-
-<h3>Персональная информация</h3>
-
-<p>ФИО: {{ request.user.last_name }} {{ request.user.first_name }} {{ request.user.patronymic }}</p>
-<p>Телефон: {{ request.user.phone_number }}</p>
-<p>Паспортные данные: {{ request.user.passport_data }}</p>
-
-{% if request.user.department %}
-    <p>Отдел: {{ request.user.department.name }}</p>
-{% else %}
-    <p>Отдел: Не указан</p>
-{% endif %}
-
-<h2>Панель управления</h2>
-
-{% if request.user.role == 'manager' %}
-    {% if request.user.department %}
-        <a href="{% url 'department_view' request.user.department.id %}" class="btn btn-info">Просмотреть отдел</a>
-    {% endif %}
-{% endif %}
-
-<a href="{% url 'create_task' %}" class="btn btn-primary">Создать задачу</a>
-
-<a href="{% url 'review_tasks' %}" class="btn btn-primary">Просмотреть задачи на рассмотрении</a>
-
+<div class="container mt-4">
+    <h2 class="mb-4">Персональная страница менеджера</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Персональная информация</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>ФИО:</strong> {{ request.user.last_name }} {{ request.user.first_name }} {{ request.user.patronymic }}</p>
+            <p><strong>Телефон:</strong> {{ request.user.phone_number }}</p>
+            <p><strong>Паспортные данные:</strong> {{ request.user.passport_data }}</p>
+            {% if request.user.department %}
+                <p><strong>Отдел:</strong> {{ request.user.department.name }}</p>
+            {% else %}
+                <p><strong>Отдел:</strong> Не указан</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <h1 class="mb-4 text-center">Панель управления</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            {% if request.user.role == 'manager' %}
+                {% if request.user.department %}
+                    <a href="{% url 'department_view' request.user.department.id %}" class="btn btn-info mb-2 w-100">Просмотреть отдел</a>
+                {% endif %}
+                <a href="{% url 'create_task' %}" class="btn btn-primary mb-2 w-100">Создать задачу</a>
+                <a href="{% url 'review_tasks' %}" class="btn btn-primary mb-2 w-100">Просмотреть задачи на рассмотрении</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
