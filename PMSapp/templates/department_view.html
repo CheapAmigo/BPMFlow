@@ -6,15 +6,21 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">
-        <img src="{% static 'images/department_icon.svg' %}" alt="Department Icon" style="height: 24px; vertical-align: middle;">
+    <h2 class="mb-4 d-flex align-items-center">
+        <img src="{% static 'images/department_icon.svg' %}" alt="Department Icon" style="height: 24px; width:24px; vertical-align: middle; margin-right: 5px;">
         Отдел: {{ department.name }}
+    </h2>
+
+    <h2 class="mb-2 d-flex align-items-center">
+        <img src="{% static 'images/department_description_icon.svg' %}" alt="Department Icon" style="height: 24px; width:24px; vertical-align: middle; margin-right: 5px;">
+        Описание:
     </h2>
 
     {% if department.description %}
         <p>{{ department.description }}</p>
     {% endif %}
 
+    {% if request.user.role == 'manager' %}
     <h3 class="mt-4">
         <img src="{% static 'images/employees_icon.svg' %}" alt="Employees Icon" style="height: 24px; vertical-align: middle;">
         Работники
@@ -25,9 +31,13 @@
         {% for employee in employees %}
             <div class="list-group-item">
                 <h5 class="mb-1">{{ employee.last_name }} {{ employee.first_name }} {{ employee.patronymic }}</h5>
-                <p class="mb-1">
+                <p class="mb-1 d-flex align-items-center">
+                    <img src="{% static 'images/phone_icon.svg' %}" alt="Phone Icon" style="height: 15px; width: 15px; margin-right: 3px;">
                     <strong>Телефон:</strong> {{ employee.phone_number }}<br>
-                    <strong>Должность:</strong> {{ employee.position }}
+                </p>
+                <p class="mb-1 d-flex align-items-center">
+                    <img src="{% static 'images/position_icon.svg' %}" alt="Position Icon" style="height: 15px; width: 15px; margin-right: 3px;">
+                    <strong>Должность:</strong> {{ employee.phone_number }}<br>
                 </p>
                 <a href="{% url 'employee_dashboard' employee.id %}" class="btn btn-primary btn-sm">Персональная страница</a>
             </div>
@@ -35,6 +45,7 @@
     </div>
     {% else %}
     <p class="alert alert-warning">В этом отделе нет работников.</p>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}
