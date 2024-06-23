@@ -27,7 +27,13 @@ SECRET_KEY = 'django-insecure-7o)^7s)_b5p5c)*122h_it3+e!c*7ccqdj)b@w@$dq)j=z+86j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    'bpmflow.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+]
 
 
 # Application definition

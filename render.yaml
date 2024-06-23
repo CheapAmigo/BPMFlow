@@ -3,4 +3,4 @@ services:
     name: BPMFlow
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn BPMFlow.wsgi:application --bind 0.0.0.0:8000
+    startCommand: gunicorn BPMFlow.wsgi:application --bind 0.0.0.0:4000
