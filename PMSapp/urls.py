@@ -4,6 +4,7 @@ from . import views
 from .views import register, login_view, employee_dashboard, manager_dashboard, department_view, create_task, weekly_schedule, daily_schedule, manage_absence, submit_task_for_review, review_task, task_detail
 
 urlpatterns = [
+    path('', login_view, name='home'), 
     path('register/', register, name='register'),
     path('login/', login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
