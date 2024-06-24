@@ -7,7 +7,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-7o)^7s)_b5p5c)*122h_i
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'bpmflow-ugxq.onrender.com').split(',')
 
 INSTALLED_APPS = [
     'PMSapp',
