@@ -80,10 +80,31 @@ if db_port is None:
 db_port = int(db_port)
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f'mysql://{os.environ.get("DB_USER")}:{os.environ.get("DB_PASSWORD")}@{os.environ.get("DB_HOST")}:{db_port}/{os.environ.get("DB_NAME")}'
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bpmflow_db',
+        'USER': 'bpmflow_db_user',
+        'PASSWORD': '5ByprvhZFE17Ajs5Mac7q85woQ2VzgX1',
+        'HOST': 'dpg-cpspof08fa8c739chv1g-a.frankfurt-postgres.render.com',
+        'PORT': '5432',
+    }
 }
+
+import subprocess
+
+sql_dump_file = os.path.join(BASE_DIR, 'bpmflow_db_dump.sql')
+command = [
+    'PGPASSWORD=5ByprvhZFE17Ajs5Mac7q85woQ2VzgX1',
+    'psql',
+    '-h',
+    'dpg-cpspof08fa8c739chv1g-a.frankfurt-postgres.render.com',
+    '-U',
+    'bpmflow_db_user',
+    'bpmflow_db',
+    '<',
+    sql_dump_file
+]
+subprocess.run(' '.join(command), shell=True, check=True)
 
 AUTH_USER_MODEL = 'PMSapp.CustomUser'
 
