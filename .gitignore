@@ -14,8 +14,6 @@ __pycache__/
 # Exclude log files
 *.log
 
-# Exclude static and media files (if they are generated dynamically)
-media/
 
 # Exclude environment variable files
 .env
