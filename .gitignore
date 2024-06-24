@@ -29,8 +29,6 @@ htmlcov/
 
 # Exclude mypy and other type-checking reports
 .mypy_cache/
-.dmypy.json
-.dmypy.json.XXX/
 
 # Exclude test reports
 pytest_cache/
