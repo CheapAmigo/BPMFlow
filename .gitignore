@@ -6,9 +6,6 @@ venv/
 *.pyc
 __pycache__/
 
-# Exclude database files (excluding MySQL dumps)
-*.sqlite3
-
 # Exclude IDE and editor specific files
 .vscode/
 .idea/
