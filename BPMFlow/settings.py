@@ -97,3 +97,9 @@ LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+instance_path = os.path.join(basedir, 'BPMFlow')
+
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(instance_path, 'bpmflow_db.sqlite3')
+SQLALCHEMY_TRACK_MODIFICATIONS = False
