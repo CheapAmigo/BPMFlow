@@ -31,8 +31,17 @@
                     <p>{{ error }}</p>
                     {% endfor %}
                 </div>
+                
+                {% endif %}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
                 {% endif %}
             </div>
+
             <button type="submit" class="btn btn-primary btn-block mt-3">Войти</button>
         </form>
         <p class="text-center mt-3">Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
