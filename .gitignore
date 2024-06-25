@@ -6,9 +6,6 @@ venv/
 *.pyc
 __pycache__/
 
-# Exclude database files (excluding MySQL dumps)
-*.sqlite3
-
 # Exclude IDE and editor specific files
 .vscode/
 .idea/
@@ -17,9 +14,6 @@ __pycache__/
 # Exclude log files
 *.log
 
-# Exclude static and media files (if they are generated dynamically)
-staticfiles/
-media/
 
 # Exclude environment variable files
 .env
@@ -35,8 +29,6 @@ htmlcov/
 
 # Exclude mypy and other type-checking reports
 .mypy_cache/
-.dmypy.json
-.dmypy.json.XXX/
 
 # Exclude test reports
 pytest_cache/

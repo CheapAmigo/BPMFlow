@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: bpmflow
+    env: python
+    buildCommand: "
+      pip install -r requirements.txt &&
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate
+    "
+    startCommand: "gunicorn BPMFlow.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        value: django-insecure-7o)^7s)_b5p5c)*122h_it3+e!c*7ccqdj)b@w@$dq)j=z+86j
+      - key: DB_NAME
+        value: bpmflow_db
+      - key: DB_USER
+        value: root
+      - key: DB_PASSWORD
+        value: root
+      - key: DB_HOST
+        value: localhost
+      - key: DB_PORT
+        value: "3306"

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, AbsenceForm
 from .models import CustomUser, Task, Department, Schedule
 from django.http import HttpResponseForbidden
@@ -33,6 +34,10 @@ def login_view(request):
                     return redirect('employee_dashboard')
                 elif user.role == 'manager':
                     return redirect('manager_dashboard')
+            else:
+                messages.error(request, 'Имя пользователя или Пароль неверны')
+        else:
+            messages.error(request, 'Имя пользователя или Пароль неверны')
     else:
         form = CustomAuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
