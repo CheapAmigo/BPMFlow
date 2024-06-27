@@ -5,7 +5,7 @@ from .models import CustomUser, Department
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'patronymic', 'phone_number', 'passport_data', 'department', 'role')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'patronymic', 'phone_number', 'passport_data', 'department', 'role', 'position', 'responsibilities')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
